@@ -18,16 +18,40 @@
   <div class="container">
     <div class="card">
       <p>Total Penyewa</p>
-      <h2>12</h2>
+      <h2 id+"totalPenyewa">12</h2>
     </div>
     <div class="card">
       <p>Kamar Kosong</p>
-      <h2>3</h2>
+      <h2 id="kamarKosong">3</h2>
     </div>
     <div class="card">
       <p>Pembayaran Bulan Ini</p>
-      <h2>Rp 8.500.000</h2>
+      <h2 id="totalBayar">Rp 8.500.000</h2>
     </div>
   </div>
+ <script>
+async function loadData() {
+  // 1. Replace these 3 with your published CSV links from Google Sheets
+  const penyewaURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQULjPlDZDxI2SeaMEqiTdIh3cQJqqLEz3m92pB4UGvX0baS70kqv5QGckp8hazPwkCIb8rOQOX57qL/pub?gid=0&single=true&output=csv";
+  const kamarURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQULjPlDZDxI2SeaMEqiTdIh3cQJqqLEz3m92pB4UGvX0baS70kqv5QGckp8hazPwkCIb8rOQOX57qL/pub?gid=1077475339&single=true&output=csv"; 
+  const bayarURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQULjPlDZDxI2SeaMEqiTdIh3cQJqqLEz3m92pB4UGvX0baS70kqv5QGckp8hazPwkCIb8rOQOX57qL/pub?gid=1845020076&single=true&output=csv";
+
+  // 2. Load Total Penyewa
+  const penyewaData = await fetch(penyewaURL).then(r => r.text());
+  const totalPenyewa = penyewaData.split('\n').length - 1; // -1 for header
+  document.getElementById('totalPenyewa').innerText = totalPenyewa;
+
+  // 3. Load Kamar Kosong - example: count rows where Status = Kosong
+  const kamarData = await fetch(kamarURL).then(r => r.text());
+  const kamarKosong = kamarData.split('\n').filter(row => row.includes('Kosong')).length;
+  document.getElementById('kamarKosong').innerText = kamarKosong;
+
+  // 4. Load Pembayaran - example: sum column
+  const bayarData = await fetch(bayarURL).then(r => r.text());
+  // You'd need to sum the column here. For now we just show 1
+  document.getElementById('totalBayar').innerText = "Rp ...";
+}
+loadData();
+</script> 
 </body>
 </html>
