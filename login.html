@@ -39,12 +39,12 @@
 </div>
 
 <script>
-function logindummy(){
+function login(){
   let user = document.getElementById('username').value;
   let pass = document.getElementById('password').value;
   
   // Ini contoh login dummy. Nanti kita ganti pake database beneran
-  if(user == "admin dummy" && pass == "123456"){
+  if(user == "admin" && pass == "123456"){
     alert("Login Berhasil! Selamat datang di Dashboard Penghuni");
     window.location.href = "dashboard.html"; // nanti kita bikin
   } else {
